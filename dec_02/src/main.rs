@@ -2,7 +2,7 @@ use anyhow::{anyhow, Context, Error};
 use std::fs::read_to_string;
 
 fn main() {
-    let total_score = get_scores("actual_input.txt");
+    let total_score = get_scores("dec_02/actual_input.txt");
     println!("total score: {:?}", total_score);
 }
 
@@ -18,40 +18,40 @@ fn round_scores(your_score: u64, elf_score: u64) -> u64 {
         return your_score + DRAW_SCORE;
     } else if your_score > elf_score {
         if your_score == 3 && elf_score == 1 {
-            return your_score + LOSE_SCORE
+            return your_score + LOSE_SCORE;
         } else {
-            return your_score + WIN_SCORE
+            return your_score + WIN_SCORE;
         }
     } else {
         if your_score == 1 && elf_score == 3 {
-            return your_score + WIN_SCORE
+            return your_score + WIN_SCORE;
         } else {
-            return your_score + LOSE_SCORE
+            return your_score + LOSE_SCORE;
         }
     }
 }
 
 fn choose_draw(elf_score: u64) -> u64 {
-    return elf_score + DRAW_SCORE
+    return elf_score + DRAW_SCORE;
 }
 
-fn choose_lose(elf_score : u64) -> u64 {
+fn choose_lose(elf_score: u64) -> u64 {
     if elf_score == 1 {
-        return 3 + LOSE_SCORE
+        return 3 + LOSE_SCORE;
     } else if elf_score == 2 {
-        return 1 + LOSE_SCORE
+        return 1 + LOSE_SCORE;
     } else {
-        return 2 + LOSE_SCORE
+        return 2 + LOSE_SCORE;
     }
 }
 
-fn choose_win(elf_score : u64) -> u64 {
+fn choose_win(elf_score: u64) -> u64 {
     if elf_score == 3 {
-        return 1 + WIN_SCORE
+        return 1 + WIN_SCORE;
     } else if elf_score == 1 {
-        return 2 + WIN_SCORE
+        return 2 + WIN_SCORE;
     } else {
-        return 3 + WIN_SCORE
+        return 3 + WIN_SCORE;
     }
 }
 
@@ -63,7 +63,6 @@ fn get_scores(file_path: &str) -> Result<u64, Error> {
         if r.is_empty() {
             continue;
         }
-        println!("{:?}", r);
         let elf_action = r
             .chars()
             .nth(0)
@@ -85,12 +84,8 @@ fn get_scores(file_path: &str) -> Result<u64, Error> {
             _ => return Err(anyhow!("Incorrect char {}", your_action)),
         };
         total_score += your_score;
-        
-        println!("{}", total_score);
-
     }
 
-    println!("{}", total_score);
     return Ok(total_score);
 }
 
@@ -99,7 +94,7 @@ mod tests {
     use super::*;
     #[test]
     fn test_all() {
-        let total_score = get_scores("test_input.txt").unwrap();
+        let total_score = get_scores("dec_02/test_input.txt").unwrap();
         assert_eq!(total_score, 12);
     }
 }
