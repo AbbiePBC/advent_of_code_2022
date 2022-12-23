@@ -69,16 +69,12 @@ fn reverse_stacks(all_stacks: &mut Vec<Vec<char>>) {
 
 fn do_instruction(instruction: &str, all_stacks : &mut Vec<Vec<char>>) {
     let (num_boxes_to_move, start_point, end_point) = parse_instruction(instruction);
-    for _ in 0..num_boxes_to_move {
-        let char = all_stacks[start_point - 1].pop();
-        match char {
-            Some(ch) => { all_stacks[end_point - 1].push(ch); },
-            None => { println!("this is an error."); }
-        };
-        //todo: error handle this properly
+    let stack_size = all_stacks[start_point - 1].len();
+    let mut boxes_removed : Vec<char> = all_stacks[start_point - 1].split_off(stack_size - num_boxes_to_move);
+    all_stacks[end_point - 1].append(&mut boxes_removed);
 
-    }
 }
+
 
 fn parse_instruction(instruction: &str) -> (usize, usize, usize) {
     let inst: Vec<&str> = instruction.split(" ").collect();
@@ -148,7 +144,7 @@ mod tests {
         assert_eq!(stacks, vec![vec!['Z', 'N', 'D'], vec!['M', 'C'], vec!['P']]);
 
         do_instruction("move 3 from 1 to 3", &mut stacks);
-        assert_eq!(stacks, vec![vec![], vec!['M', 'C'], vec!['P', 'D', 'N', 'Z']]);
+        assert_eq!(stacks, vec![vec![], vec!['M', 'C'], vec!['P', 'Z', 'N', 'D']]);
     }
     #[test]
     fn test_all() {
@@ -157,6 +153,6 @@ mod tests {
         let result = do_instructions(instructions, stacks);
 
         let ans = get_solution(result);
-        assert_eq!(ans, "CMZ");
+        assert_eq!(ans, "MCD");
     }
 }
