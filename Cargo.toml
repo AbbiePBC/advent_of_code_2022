@@ -19,5 +19,8 @@ path = "dec_02/src/main.rs"
 name = "dec_03"
 path = "dec_03/src/main.rs"
 [[bin]]
+name = "dec_04"
+path = "dec_04/src/main.rs"
+[[bin]]
 name = "dec_05"
 path = "dec_05/main.rs"
