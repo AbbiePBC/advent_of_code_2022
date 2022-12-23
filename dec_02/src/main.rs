@@ -2,7 +2,7 @@ use anyhow::{anyhow, Context, Error};
 use std::fs::read_to_string;
 
 fn main() {
-    let total_score = get_scores("actual_input.txt");
+    let total_score = get_scores("dec_02/actual_input.txt");
     println!("total score: {:?}", total_score);
 }
 
@@ -63,7 +63,6 @@ fn get_scores(file_path: &str) -> Result<u64, Error> {
         if r.is_empty() {
             continue;
         }
-        println!("{:?}", r);
         let elf_action = r
             .chars()
             .nth(0)
@@ -85,12 +84,9 @@ fn get_scores(file_path: &str) -> Result<u64, Error> {
             _ => return Err(anyhow!("Incorrect char {}", your_action)),
         };
         total_score += your_score;
-        
-        println!("{}", total_score);
 
     }
 
-    println!("{}", total_score);
     return Ok(total_score);
 }
 
@@ -99,7 +95,7 @@ mod tests {
     use super::*;
     #[test]
     fn test_all() {
-        let total_score = get_scores("test_input.txt").unwrap();
+        let total_score = get_scores("dec_02/test_input.txt").unwrap();
         assert_eq!(total_score, 12);
     }
 }

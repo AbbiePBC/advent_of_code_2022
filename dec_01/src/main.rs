@@ -2,7 +2,7 @@ use anyhow::{Context, Result};
 use std::fs::read_to_string;
 
 fn main() {
-    let calories_per_elf = read_and_get_calories_per_elf("puzzle_input.txt");
+    let calories_per_elf = read_and_get_calories_per_elf("dec_01/puzzle_input.txt");
     match calories_per_elf {
         Ok(mut cals) => {
             cals.sort();
@@ -50,7 +50,7 @@ mod tests {
     use super::*;
     #[test]
     fn test_all() {
-        let mut calories_per_elf = read_and_get_calories_per_elf("./test/short_test.txt").unwrap();
+        let mut calories_per_elf = read_and_get_calories_per_elf("dec_01/test/short_test.txt").unwrap();
         assert_eq!(calories_per_elf, [6000, 4000, 11000, 24000, 10000]);
 
         calories_per_elf.sort();
