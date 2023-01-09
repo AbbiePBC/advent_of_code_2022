@@ -1,6 +1,5 @@
 use std::fs::read_to_string;
 
-
 const POSITION_NUM: usize = 1;
 const POSITION_START: usize = 3;
 const POSITION_END: usize = 5;
@@ -11,12 +10,9 @@ fn main() {
     let result = do_instructions(instructions, stacks);
 
     println!("Solution = {}", get_solution(result));
-
 }
 
-
 fn parse_input(input_data: &str) -> (Vec<Vec<char>>, Vec<&str>) {
-
     let separated_data: Vec<&str> = input_data.split("\n\n").collect();
     let raw_initial_structure: Vec<&str> = separated_data[0].split("\n").collect();
     let initial_stacks = get_stacks(raw_initial_structure);
@@ -24,7 +20,6 @@ fn parse_input(input_data: &str) -> (Vec<Vec<char>>, Vec<&str>) {
 
     return (initial_stacks, raw_instructions);
 }
-
 
 fn get_stacks(raw_initial_structure: Vec<&str>) -> Vec<Vec<char>> {
     let number_of_stacks = raw_initial_structure[raw_initial_structure.len() - 1]
@@ -57,8 +52,7 @@ fn get_stacks(raw_initial_structure: Vec<&str>) -> Vec<Vec<char>> {
 
     reverse_stacks(&mut all_stacks);
 
-    return all_stacks
-
+    return all_stacks;
 }
 
 fn reverse_stacks(all_stacks: &mut Vec<Vec<char>>) {
@@ -67,14 +61,13 @@ fn reverse_stacks(all_stacks: &mut Vec<Vec<char>>) {
     }
 }
 
-fn do_instruction(instruction: &str, all_stacks : &mut Vec<Vec<char>>) {
+fn do_instruction(instruction: &str, all_stacks: &mut Vec<Vec<char>>) {
     let (num_boxes_to_move, start_point, end_point) = parse_instruction(instruction);
     let stack_size = all_stacks[start_point - 1].len();
-    let mut boxes_removed : Vec<char> = all_stacks[start_point - 1].split_off(stack_size - num_boxes_to_move);
+    let mut boxes_removed: Vec<char> =
+        all_stacks[start_point - 1].split_off(stack_size - num_boxes_to_move);
     all_stacks[end_point - 1].append(&mut boxes_removed);
-
 }
-
 
 fn parse_instruction(instruction: &str) -> (usize, usize, usize) {
     let inst: Vec<&str> = instruction.split(" ").collect();
@@ -86,17 +79,16 @@ fn parse_instruction(instruction: &str) -> (usize, usize, usize) {
 }
 
 fn do_instructions(instructions: Vec<&str>, mut all_stacks: Vec<Vec<char>>) -> Vec<Vec<char>> {
-    for i in 0..instructions.len() -1 {
+    for i in 0..instructions.len() - 1 {
         do_instruction(instructions[i], &mut all_stacks);
     }
     return all_stacks;
 }
 
-
 fn get_solution(stacks: Vec<Vec<char>>) -> String {
-    let mut answer : Vec<char> = Vec::new();
+    let mut answer: Vec<char> = Vec::new();
     for stack in stacks {
-        answer.push(stack[stack.len() -1]);
+        answer.push(stack[stack.len() - 1]);
     }
     return answer.into_iter().collect();
 }
@@ -144,7 +136,10 @@ mod tests {
         assert_eq!(stacks, vec![vec!['Z', 'N', 'D'], vec!['M', 'C'], vec!['P']]);
 
         do_instruction("move 3 from 1 to 3", &mut stacks);
-        assert_eq!(stacks, vec![vec![], vec!['M', 'C'], vec!['P', 'Z', 'N', 'D']]);
+        assert_eq!(
+            stacks,
+            vec![vec![], vec!['M', 'C'], vec!['P', 'Z', 'N', 'D']]
+        );
     }
     #[test]
     fn test_all() {
