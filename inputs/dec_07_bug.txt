@@ -1,0 +1,13 @@
+$ cd /
+$ cd wzpth
+$ ls
+dir snhss
+$ cd snhss
+$ ls
+dir hlw
+$ cd hlw
+$ ls
+15123 qwqlzvzv
+$ cd ..
+$ cd ..
+$ cd ..

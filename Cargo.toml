@@ -27,3 +27,6 @@ path = "dec_05/main.rs"
 [[bin]]
 name = "dec_06"
 path = "dec_06.rs"
+[[bin]]
+name = "dec_07"
+path = "dec_07.rs"
