@@ -6,4 +6,4 @@ dir a
 $ cd a
 $ ls
 7214296 k
-$ cd ..
+
