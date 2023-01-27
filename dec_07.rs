@@ -4,18 +4,12 @@ use std::thread::current;
 use substring::Substring;
 
 fn main() {
-    // how to const in rust?
 
-    // could formulate this problem as a tree and then search all nodes for their weight
-    // i dont want to do that
-
-    // {"path": size} for every possible path and duplicate info is easier
     let fs = set_up_filesystem("inputs/dec_07_input.txt");
-    //let fs = set_up_filesystem("inputs/dec_07_input.txt");
-    // println!("{:?}", fs.get_size_of_small_directories());
-    // println!("space used = {}", fs["//"]);
-    // println!("space allowed {}", 70000000 - 30000000);
-    // println!("delete smallest dir larger than {}", fs["//"] - (70000000 - 30000000 ));
+    println!("part one: {:?}", fs.get_size_of_small_directories());
+    let part_two = fs.smallest_large_directories();
+    println!("part two: {}", part_two);
+
 }
 
 fn set_up_filesystem(file_path: &str) -> HashMap<String, u64> {
@@ -26,10 +20,6 @@ fn set_up_filesystem(file_path: &str) -> HashMap<String, u64> {
     let lines: Vec<&str> = contents.split("\n").collect();
     let mut current_path = "".to_string();
     let mut previous_path = "".to_string();
-
-
-    let mut current_size = 0;
-    let mut previous_size = 0;
 
     let mut previous_line = "/";
     for line in lines {
@@ -170,11 +160,12 @@ impl FileSystemTraits for HashMap<String, u64> {
     }
 }
 
-trait SizeOfLargeDirectories {
+trait Solve {
     fn get_size_of_small_directories(&self) -> u64;
+    fn smallest_large_directories(&self) -> u64;
 }
 
-impl SizeOfLargeDirectories for HashMap<String, u64> {
+impl Solve for HashMap<String, u64> {
     fn get_size_of_small_directories(&self) -> u64 {
         let min_directory_size = 100000;
 
@@ -187,7 +178,25 @@ impl SizeOfLargeDirectories for HashMap<String, u64> {
         }
         return total_size_of_directories_smaller_than_max;
     }
+    fn smallest_large_directories(&self) -> u64 {
+        let total_space_used = self["~"];
+        let maximum_space = 40000000;
+        let space_needed = total_space_used - maximum_space;
+        let mut directory_to_delete = (&"~".to_string(), &self["~"]);
+
+        for dir in self {
+            if dir.1 > &space_needed {
+                if dir.1 < &directory_to_delete.1 {
+                    directory_to_delete = dir;
+                }
+            }
+        }
+
+        return *directory_to_delete.1
+    }
 }
+
+
 
 #[cfg(test)]
 mod tests {
