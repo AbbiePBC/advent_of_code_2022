@@ -30,3 +30,6 @@ path = "dec_06.rs"
 [[bin]]
 name = "dec_07"
 path = "dec_07.rs"
+[[bin]]
+name = "dec_08"
+path = "dec_08.rs"
