@@ -33,3 +33,6 @@ path = "dec_07.rs"
 [[bin]]
 name = "dec_08"
 path = "dec_08.rs"
+[[bin]]
+name = "dec_09"
+path = "dec_09.rs"
