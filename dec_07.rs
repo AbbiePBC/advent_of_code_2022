@@ -1,15 +1,13 @@
-use std::{collections::HashMap, fs::read_to_string};
 use std::thread::current;
+use std::{collections::HashMap, fs::read_to_string};
 
 use substring::Substring;
 
 fn main() {
-
     let fs = set_up_filesystem("inputs/dec_07_input.txt");
     println!("part one: {:?}", fs.get_size_of_small_directories());
     let part_two = fs.smallest_large_directories();
     println!("part two: {}", part_two);
-
 }
 
 fn set_up_filesystem(file_path: &str) -> HashMap<String, u64> {
@@ -30,18 +28,16 @@ fn set_up_filesystem(file_path: &str) -> HashMap<String, u64> {
             current_path = filesystem.change_directory_back_and_update_size(
                 previous_line,
                 &current_path.clone(),
-                &previous_path.clone()
+                &previous_path.clone(),
             );
             previous_path = current_path.clone();
-
         } else if line.starts_with("$ cd") {
             current_path = filesystem.change_directory_forward_and_update_size(
                 line,
                 &current_path.clone(),
-                &previous_path.clone()
+                &previous_path.clone(),
             );
             previous_path = current_path.clone();
-
         } else {
             let l: Vec<&str> = line.split(" ").collect();
             if l[0] == "dir" || l[1] == "ls" {
@@ -99,13 +95,13 @@ trait FileSystemTraits {
         &mut self,
         previous_line: &str,
         current_path: &str,
-        previous_path: &str
+        previous_path: &str,
     ) -> String;
     fn change_directory_forward_and_update_size(
         &mut self,
         line: &str,
         current_path: &str,
-        previous_path: &str
+        previous_path: &str,
     ) -> String;
 }
 
@@ -114,7 +110,7 @@ impl FileSystemTraits for HashMap<String, u64> {
         &mut self,
         previous_line: &str,
         current: &str,
-        previous_path: &str
+        previous_path: &str,
     ) -> String {
         let mut current_size = 0;
         let mut current_path = current.clone().to_string();
@@ -139,7 +135,7 @@ impl FileSystemTraits for HashMap<String, u64> {
         let cp = self.clone();
         let prev_size = cp.get(previous_path).unwrap();
         self.get_mut(&current_path).map(|val| {
-            *val += *prev_size ;
+            *val += *prev_size;
         });
         return current_path;
     }
@@ -148,8 +144,7 @@ impl FileSystemTraits for HashMap<String, u64> {
         &mut self,
         line: &str,
         current: &str,
-        previous_path: &str
-
+        previous_path: &str,
     ) -> String {
         let mut current_path = current.to_string();
         let l: Vec<&str> = line.split(" ").collect();
@@ -192,11 +187,9 @@ impl Solve for HashMap<String, u64> {
             }
         }
 
-        return *directory_to_delete.1
+        return *directory_to_delete.1;
     }
 }
-
-
 
 #[cfg(test)]
 mod tests {

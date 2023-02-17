@@ -1,6 +1,6 @@
+use std::cmp::max;
 use std::fs::read_to_string;
 use std::thread::current;
-use std::cmp::max;
 
 fn main() {
     let input_data = read_to_string("inputs/dec_08_input.txt").unwrap();
@@ -21,7 +21,11 @@ struct Tree {
 
 impl Tree {
     fn new(height: i32, is_visible: bool, scenic_score: usize) -> Tree {
-        return Tree { height, is_visible, scenic_score};
+        return Tree {
+            height,
+            is_visible,
+            scenic_score,
+        };
     }
 }
 
@@ -66,7 +70,7 @@ impl Forest {
 
     // the x and y indexing has somehow switched.
 
-    fn update_tree_scenic_score(&mut self, x: usize, y: usize){
+    fn update_tree_scenic_score(&mut self, x: usize, y: usize) {
         let left_score = self.closest_distance_tree_left_from(x, y);
         let right_score = self.closest_distance_tree_right_from(x, y);
         let up_score = self.closest_distance_tree_up_from(x, y);
@@ -74,9 +78,9 @@ impl Forest {
         self.forest[y][x].scenic_score = left_score * right_score * up_score * down_score;
     }
 
-    fn update_all_scenic_scores_and_find_max(&mut self) -> usize{
+    fn update_all_scenic_scores_and_find_max(&mut self) -> usize {
         let mut max_scenic_score = 0;
-        for i in 0..self.forest.len(){
+        for i in 0..self.forest.len() {
             for j in 0..self.forest.len() {
                 self.update_tree_scenic_score(i, j);
                 max_scenic_score = max(max_scenic_score, self.forest[j][i].scenic_score);
@@ -84,8 +88,6 @@ impl Forest {
         }
         return max_scenic_score;
     }
-
-
 
     fn update_visibility_top_to_bottom(&mut self) {
         let grid_size = self.forest.len();
@@ -159,7 +161,7 @@ impl Forest {
     }
     fn closest_distance_tree_up_from(&self, x: usize, y: usize) -> usize {
         let tree_height = self.forest[y][x].height;
-        for tree in (0..y).rev(){
+        for tree in (0..y).rev() {
             if self.forest[tree][x].height >= tree_height {
                 return y - tree;
             }
@@ -171,8 +173,8 @@ impl Forest {
         let tree_height = self.forest[y][x].height;
         let num_trees_below = self.forest.len() - y - 1;
 
-        for tree in y+1..self.forest.len(){
-            let current_height =  self.forest[tree][x].height;
+        for tree in y + 1..self.forest.len() {
+            let current_height = self.forest[tree][x].height;
             if current_height >= tree_height {
                 return tree - y;
             }
@@ -192,16 +194,15 @@ impl Forest {
     }
     fn closest_distance_tree_right_from(&self, x: usize, y: usize) -> usize {
         let tree_height = self.forest[y][x].height;
-        let num_trees_right = self.forest.len() - x - 1 ;
+        let num_trees_right = self.forest.len() - x - 1;
 
-        for tree in x+1..self.forest.len() - 1 {
+        for tree in x + 1..self.forest.len() - 1 {
             if self.forest[y][tree].height >= tree_height {
                 return tree - x;
             }
         }
         return num_trees_right;
     }
-
 }
 
 fn is_outer_tree(w: usize, h: usize, grid_width: usize) -> bool {
@@ -374,11 +375,9 @@ mod tests {
         assert_eq!(grid.forest[3][2].scenic_score, 8);
     }
 
-
     #[test]
     fn max_scenic_score() {
         let mut grid = Forest::new_from_string("30373\n25512\n65332\n33549\n35390\n");
         assert_eq!(grid.update_all_scenic_scores_and_find_max(), 8);
     }
-
 }
